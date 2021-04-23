@@ -54,3 +54,4 @@ usMacroCreateBundle(ShellService
   BINARY_RESOURCES tinyscheme/init.scm
 )
 
+set_property(TARGET usShellService PROPERTY FOLDER tools)

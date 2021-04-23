@@ -7,6 +7,7 @@ set(srcs main.cpp)
 
 add_executable(jsonschemavalidator ${srcs})
 set_property(TARGET jsonschemavalidator PROPERTY OUTPUT_NAME jsonschemavalidator)
+set_property(TARGET jsonschemavalidator PROPERTY FOLDER "tools")
 
 if(NOT US_NO_INSTALL)
     install(TARGETS jsonschemavalidator

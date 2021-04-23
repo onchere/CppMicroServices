@@ -36,6 +36,7 @@ include_directories(
   )
 
 add_executable(${us_cm_test_exe_name} ${_cm_tests})
+set_property(TARGET ${us_cm_test_exe_name} PROPERTY FOLDER tests)
 
 # Disable deprecation warnings.
 if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR

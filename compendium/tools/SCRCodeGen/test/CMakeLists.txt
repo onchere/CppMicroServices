@@ -38,6 +38,9 @@ include_directories(${CppMicroServices_SOURCE_DIR}/framework/include
   )
 
 add_executable(${scrcodegen_test_exe_name} ${_scrcodegen_tests})
+
+set_property(TARGET ${scrcodegen_test_exe_name} PROPERTY FOLDER tests)
+
 target_compile_definitions(${scrcodegen_test_exe_name} PRIVATE USING_GTEST)
 
 # Disable deprecation warnings.

@@ -294,6 +294,9 @@ if(US_COMPILER_APPLE_CLANG OR US_COMPILER_CLANG)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 endif()
 
+# To enable using folders to organize different targets in Xcode & other supported IDEs
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 #-----------------------------------------------------------------------------
 # Testing configuration
 #-----------------------------------------------------------------------------
@@ -378,6 +381,10 @@ if(US_BUILD_TESTING)
     set(_us_build_shared ${BUILD_SHARED_LIBS})
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
     add_subdirectory(third_party/googletest)
+    set_property(TARGET gmock PROPERTY FOLDER third_party)
+    set_property(TARGET gmock_main PROPERTY FOLDER third_party)
+    set_property(TARGET gtest PROPERTY FOLDER third_party)
+    set_property(TARGET gtest_main PROPERTY FOLDER third_party)
 
     set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "" FORCE)
     set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)

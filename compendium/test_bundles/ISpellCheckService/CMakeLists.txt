@@ -6,6 +6,8 @@ add_library(usISpellCheckService
   src/ISpellCheckService.cpp
   )
 
+set_property(TARGET usISpellCheckService PROPERTY FOLDER test_bundles)
+
 configure_file(
   ${CppMicroServices_SOURCE_DIR}/cmake/Export.h.in
   ${CMAKE_CURRENT_BINARY_DIR}/include/ISpellCheckService/${PROJECT_NAME}Export.h

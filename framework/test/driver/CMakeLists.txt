@@ -86,6 +86,7 @@ add_executable(${_test_driver} ${_srcs} ${_additional_srcs} ${_third_party_srcs}
 add_dependencies(${_test_driver} ${US_RCC_EXECUTABLE_TARGET})
 set_property(TARGET ${_test_driver} APPEND PROPERTY COMPILE_DEFINITIONS US_BUNDLE_NAME=main)
 set_property(TARGET ${_test_driver} PROPERTY US_BUNDLE_NAME main)
+set_property(TARGET ${_test_driver} PROPERTY FOLDER tests)
 
 target_include_directories(${_test_driver} PRIVATE $<TARGET_PROPERTY:util,INCLUDE_DIRECTORIES>)
 

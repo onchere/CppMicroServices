@@ -67,3 +67,5 @@ usMacroCreateBundle(WebConsole
   SOURCES ${_srcs}
   RESOURCES ${_resources}
 )
+
+set_property(TARGET usWebConsole PROPERTY FOLDER tools)

@@ -43,6 +43,8 @@ include_directories(${CppMicroServices_SOURCE_DIR}/framework/include
 
 add_executable(${us_servicecomponent_test_exe_name} ${_servicecomponent_tests})
 
+set_property(TARGET ${us_servicecomponent_test_exe_name} PROPERTY FOLDER tests)
+
 # Disable deprecation warnings.
 if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR
     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR

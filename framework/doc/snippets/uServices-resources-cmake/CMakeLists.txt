@@ -6,4 +6,5 @@ set_target_properties(mybundle PROPERTIES
   ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/snippets"
   LIBRARY_OUTPUT_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/snippets"
   OUTPUT_NAME Snippet-mybundle
+  FOLDER framework_doc_snippets
 )

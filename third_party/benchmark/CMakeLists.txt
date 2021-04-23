@@ -13,6 +13,7 @@ foreach(p
 endforeach()
 
 project (benchmark)
+set_property(DIRECTORY . PROPERTY FOLDER "third_party")
 
 option(BENCHMARK_ENABLE_TESTING "Enable testing of the benchmark library." ON)
 option(BENCHMARK_ENABLE_EXCEPTIONS "Enable the use of exceptions in the benchmark library." ON)

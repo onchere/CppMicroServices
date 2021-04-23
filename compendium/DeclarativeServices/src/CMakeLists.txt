@@ -70,6 +70,8 @@ set(_private_headers
   
 add_library(DeclarativeServicesObjs OBJECT ${_srcs} ${_private_headers})
 
+set_property(TARGET DeclarativeServicesObjs PROPERTY FOLDER compendium)
+
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
   get_property(_compile_flags TARGET DeclarativeServicesObjs PROPERTY COMPILE_FLAGS)
   set_property(TARGET DeclarativeServicesObjs PROPERTY COMPILE_FLAGS "${_compile_flags} -fPIC")

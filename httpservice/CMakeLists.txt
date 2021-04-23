@@ -85,3 +85,4 @@ if(UNIX AND NOT APPLE)
   target_link_libraries(usHttpService PRIVATE rt)
 endif()
 
+set_property(TARGET usHttpService PROPERTY FOLDER tools)

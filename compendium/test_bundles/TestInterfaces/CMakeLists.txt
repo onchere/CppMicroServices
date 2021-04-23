@@ -20,3 +20,4 @@ target_include_directories(usTestInterfaces
     $<INSTALL_INTERFACE:${HEADER_INSTALL_DIR}>
   )
 
+set_property(TARGET usTestInterfaces PROPERTY FOLDER test_bundles)

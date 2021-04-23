@@ -5,6 +5,8 @@ project(IDictionaryService VERSION 1.0.0 LANGUAGES CXX)
 add_library(usIDictionaryService
   src/IDictionaryService.cpp
   )
+  
+set_property(TARGET usIDictionaryService PROPERTY FOLDER test_bundles)
 
 configure_file(
   ${CppMicroServices_SOURCE_DIR}/cmake/Export.h.in

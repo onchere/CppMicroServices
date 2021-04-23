@@ -54,6 +54,7 @@ set(_ABSL_HDRS
 add_library(absl OBJECT ${_ABSL_SRCS} ${_ABSL_HDRS})
 
 set_property(TARGET absl PROPERTY POSITION_INDEPENDENT_CODE 1)
+set_property(TARGET absl PROPERTY FOLDER "third_party")
 
 target_include_directories(absl
   PUBLIC

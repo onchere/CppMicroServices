@@ -42,6 +42,8 @@ usMacroCreateBundle(LogServiceImpl
   BINARY_RESOURCES manifest.json
   )
 
+set_property(TARGET LogService PROPERTY FOLDER compendium)
+
 target_include_directories(LogService PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/src
   ${CppMicroServices_BINARY_DIR}/include

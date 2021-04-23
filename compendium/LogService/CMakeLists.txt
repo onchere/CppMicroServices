@@ -29,6 +29,8 @@ configure_file(${CppMicroServices_SOURCE_DIR}/cmake/Export.h.in
   )
 
 add_library(usLogService ${_srcs} ${_public_headers})
+set_property(TARGET usLogService PROPERTY FOLDER compendium)
+
 if (US_BUILD_TESTING)
   target_compile_definitions(usLogService PRIVATE USING_GTEST)
 endif()

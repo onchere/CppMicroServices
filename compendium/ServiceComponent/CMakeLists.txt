@@ -47,6 +47,9 @@ configure_file(${CppMicroServices_SOURCE_DIR}/cmake/Export.h.in
   )
 
 add_library(${PROJECT_TARGET} ${_srcs} ${_public_headers} ${CMAKE_CURRENT_BINARY_DIR}/include/cppmicroservices/servicecomponent/ServiceComponentExport.h)
+
+set_property(TARGET ${PROJECT_TARGET} PROPERTY FOLDER compendium)
+
 if (US_BUILD_TESTING)
   target_compile_definitions(${PROJECT_TARGET} PRIVATE USING_GTEST)
 endif()

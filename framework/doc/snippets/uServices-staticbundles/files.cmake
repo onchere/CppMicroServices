@@ -6,6 +6,7 @@ set(base_dir uServices-staticbundles)
 add_library(MyStaticBundle STATIC ${base_dir}/MyStaticBundle.cpp)
 set_property(TARGET MyStaticBundle APPEND PROPERTY COMPILE_DEFINITIONS US_BUNDLE_NAME=MyStaticBundle)
 set_property(TARGET MyStaticBundle PROPERTY US_BUNDLE_NAME MyStaticBundle)
+set_property(TARGET MyStaticBundle PROPERTY FOLDER framework_doc_snippets)
 
 target_link_libraries(MyStaticBundle PRIVATE CppMicroServices)
 

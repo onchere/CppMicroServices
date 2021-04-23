@@ -17,6 +17,9 @@ foreach(item ${BENCHMARK_MAIN})
 endforeach()
 
 add_library(benchmark ${SOURCE_FILES})
+
+set_property(TARGET benchmark PROPERTY FOLDER third_party)
+
 set_target_properties(benchmark PROPERTIES
   OUTPUT_NAME "benchmark"
   VERSION ${GENERIC_LIB_VERSION}
@@ -54,6 +57,8 @@ target_include_directories(benchmark PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     )
 target_link_libraries(benchmark_main benchmark)
+
+set_property(TARGET benchmark_main PROPERTY FOLDER third_party)
 
 set(include_install_dir "include")
 set(lib_install_dir "lib/")

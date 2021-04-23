@@ -73,6 +73,7 @@ add_executable(${us_gtest_test_exe_name} ${_gtest_tests} ${_additional_srcs})
 add_dependencies(${us_gtest_test_exe_name} ${US_RCC_EXECUTABLE_TARGET})
 set_property(TARGET ${us_gtest_test_exe_name} APPEND PROPERTY COMPILE_DEFINITIONS US_BUNDLE_NAME=main)
 set_property(TARGET ${us_gtest_test_exe_name} PROPERTY US_BUNDLE_NAME main)
+set_property(TARGET ${us_gtest_test_exe_name} PROPERTY FOLDER tests)
 
 target_include_directories(${us_gtest_test_exe_name} PRIVATE $<TARGET_PROPERTY:util,INCLUDE_DIRECTORIES>)
 

@@ -50,6 +50,8 @@ usMacroCreateBundle(DeclarativeServices
   BINARY_RESOURCES manifest.json
   )
 
+set_property(TARGET DeclarativeServices PROPERTY FOLDER compendium)
+
 include_directories(${CppMicroServices_SOURCE_DIR}/framework/include
   ${CppMicroServices_BINARY_DIR}/include
   ${CppMicroServices_BINARY_DIR}/framework/include

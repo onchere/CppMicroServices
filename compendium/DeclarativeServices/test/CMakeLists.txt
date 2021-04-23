@@ -123,6 +123,11 @@ set_property(
   PROPERTY US_BUNDLE_NAME main
   )
 
+set_property(
+  TARGET ${us_declarativeservices_test_exe_name}
+  PROPERTY FOLDER tests
+  )
+
 target_include_directories(${us_declarativeservices_test_exe_name}
   PRIVATE $<TARGET_PROPERTY:util,INCLUDE_DIRECTORIES>)
 
