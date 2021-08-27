@@ -2,6 +2,19 @@
 # Build and run the GTest Suite of tests
 #-----------------------------------------------------------------------------
 
+# Make sure that the correct paths separators are used on each platform
+if(WIN32)
+  set(DIR_SEP "\\\\")
+  string(REPLACE "/" "\\\\" CMAKE_LIBRARY_OUTPUT_DIRECTORY_NATIVE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+  string(REPLACE "/" "\\\\" CMAKE_RUNTIME_OUTPUT_DIRECTORY_NATIVE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+else()
+  set(DIR_SEP "/")
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_NATIVE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_NATIVE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endif()
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/TestingConfig.h.in" "${PROJECT_BINARY_DIR}/include/TestingConfig.h")
+
 set(us_gtest_test_exe_name usFrameworkTests)
 
 include_directories(
@@ -56,6 +69,9 @@ set(_gtest_tests
   ServiceHooksTest.cpp
   TestCounterLatch.cpp
   ResourceCompilerTest.cpp
+  MultipleListenersTest.cpp
+  BundleTest.cpp
+  main.cpp
 )
 
 if(BUILD_SHARED_LIBS)
@@ -66,6 +82,7 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 set(_additional_srcs
+  FrameworkTestActivator.cpp
   ../util/TestUtilBundleListener.cpp
   ../util/TestUtilFrameworkListener.cpp
   ../util/TestUtils.cpp
@@ -89,6 +106,10 @@ usFunctionGetResourceSource(TARGET ${us_gtest_test_exe_name} OUT _additional_src
 
 add_executable(${us_gtest_test_exe_name} ${_gtest_tests} ${_additional_srcs} ${_third_party_srcs})
 
+if (US_COMPILER_MSVC AND BUILD_SHARED_LIBS)
+  target_compile_options(${us_gtest_test_exe_name} PRIVATE -DGTEST_LINKED_AS_SHARED_LIBRARY)
+endif()
+
 # Needed for ResourceCompilerTest
 add_dependencies(${us_gtest_test_exe_name} ${US_RCC_EXECUTABLE_TARGET})
 set_property(TARGET ${us_gtest_test_exe_name} APPEND PROPERTY COMPILE_DEFINITIONS US_BUNDLE_NAME=main)
@@ -101,9 +122,9 @@ if (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR
     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang") OR
     ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU"))
   set_source_files_properties(${_gtest_tests}
-								PROPERTIES COMPILE_FLAGS -Wno-error=deprecated-declarations
-											COMPILE_FLAGS -Wno-deprecated
-											COMPILE_FLAGS -Wno-deprecated-declarations)
+                                PROPERTIES COMPILE_FLAGS -Wno-error=deprecated-declarations
+                                            COMPILE_FLAGS -Wno-deprecated
+                                            COMPILE_FLAGS -Wno-deprecated-declarations)
 endif()
 
 target_link_libraries(${us_gtest_test_exe_name} ${GTEST_BOTH_LIBRARIES})

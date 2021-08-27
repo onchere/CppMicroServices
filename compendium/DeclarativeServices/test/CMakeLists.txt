@@ -54,6 +54,7 @@ add_compile_definitions(BOOST_REGEX_NO_LIB)
 set(_declarativeservices_tests
   ActivatorTest.cpp
   SCRLoggerTest.cpp
+  TestAsyncWorkService.cpp
   TestCCActiveState.cpp
   TestCCRegisteredState.cpp
   TestCCUnsatisfiedReferenceState.cpp
@@ -122,6 +123,10 @@ usFunctionGetResourceSource(
 add_executable(${us_declarativeservices_test_exe_name}
   ${_declarativeservices_tests}
   ${_additional_srcs})
+
+if (US_COMPILER_MSVC AND BUILD_SHARED_LIBS)
+  target_compile_options(${us_declarativeservices_test_exe_name} PRIVATE -DGTEST_LINKED_AS_SHARED_LIBRARY)
+endif()
 
 set_property(
   TARGET ${us_declarativeservices_test_exe_name}
@@ -210,6 +215,7 @@ target_link_libraries(${us_declarativeservices_test_exe_name}
   usTestInterfaces
   usServiceComponent
   usLogService
+  usAsyncWorkService
   usIDictionaryService
   usISpellCheckService
   gtest
@@ -298,4 +304,3 @@ else()
                            FILES manifest.json
                            ZIP_ARCHIVES ${Framework_TARGET} ${_test_bundles})
 endif()
-

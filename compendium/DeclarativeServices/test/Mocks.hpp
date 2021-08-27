@@ -23,6 +23,7 @@
 #ifndef __MOCKS_HPP__
 #define __MOCKS_HPP__
 #include "../src/ComponentRegistry.hpp"
+#include "../src/SCRAsyncWorkService.hpp"
 #include "../src/manager/ComponentConfiguration.hpp"
 #include "../src/manager/ComponentConfigurationImpl.hpp"
 #include "../src/manager/ComponentManager.hpp"
@@ -33,9 +34,61 @@
 #include "../src/manager/states/ComponentManagerState.hpp"
 #include "gmock/gmock.h"
 #include <cppmicroservices/ServiceFactory.h>
+#include <cppmicroservices/asyncworkservice/AsyncWorkService.hpp>
 
 namespace cppmicroservices {
 namespace scrimpl {
+namespace metadata {
+  inline std::ostream& operator<<(std::ostream& os, const ComponentMetadata& metadata)
+  {
+    os << "ComponentMetadata[name = " << metadata.name << "]" << std::endl
+       << "\tenabled: " << metadata.enabled << std::endl
+       << "\timmediate: " << metadata.immediate << std::endl
+       << "\timplClassName: " << metadata.implClassName << std::endl
+       << "\tactivateMethodName: " << metadata.activateMethodName << std::endl
+       << "\tdeactivateMethodName: " << metadata.deactivateMethodName << std::endl
+       << "\tmodifiedMethodName: " << metadata.modifiedMethodName << std::endl;
+
+    os << "\trefsMetaData[size = " << metadata.refsMetadata.size() << "]: [" << std::endl;
+    for (const auto& rMeta : metadata.refsMetadata) {
+      os << "\t\tReferenceMetadata[name = " << rMeta.name << "]" << std::endl
+	 << "\t\t\ttarget: " << rMeta.target << std::endl
+	 << "\t\t\tinterfaceName: " << rMeta.interfaceName << std::endl
+	 << "\t\t\tcardinality: " << rMeta.cardinality << std::endl
+	 << "\t\t\tpolicy: " << rMeta.policy << std::endl
+	 << "\t\t\tpolicyOption: " << rMeta.policyOption << std::endl
+	 << "\t\t\tscope: " << rMeta.scope << std::endl
+	 << "\t\t\tminCardinality: " << rMeta.minCardinality << std::endl
+	 << "\t\t\tmaxCardinality: " << rMeta.maxCardinality << std::endl;
+    }
+    os << "\t]" << std::endl;
+
+    os << "\tserviceMetadata:" << std::endl
+       << "\t\tServiceMetadata: [" << std::endl
+       << "\t\t\tinterfaces[size = " << metadata.serviceMetadata.interfaces.size() << "]: [" << std::endl;
+    for (const auto& interface : metadata.serviceMetadata.interfaces) {
+      bool isLast = interface != metadata.serviceMetadata.interfaces.back();
+      os << "\t\t\t\t" << interface << (isLast ? "" : ",") << std::endl;
+    }
+    os << "\t\t\t]," << std::endl
+       << "\t\t\tscope: " << metadata.serviceMetadata.scope << std::endl
+       << "\t\t]" << std::endl;
+
+    os << "\tproperties: [size = " << metadata.properties.size() << "] not shown" << std::endl;
+    os << "\tconfigurationPolicy: " << metadata.configurationPolicy << std::endl;
+    os << "\tconfigurationPids[size = " << metadata.configurationPids.size() << "]: [" << std::endl;
+    for (const auto& pid : metadata.configurationPids) {
+      bool isLast = pid != metadata.configurationPids.back();
+      os << "\t\t" << pid << (isLast ? "" : ",") << std::endl;
+    }
+    os << "\t" << "]" << std::endl
+       << "\t" << "factoryComponentID: " << metadata.factoryComponentID << std::endl;
+    os << "\tfactoryComponentProperties: [size = " << metadata.factoryComponentProperties.size() << "] not shown" << std::endl;
+
+    return os;
+  }
+} // namespace metadata
+
 namespace dummy {
 
 struct ServiceImpl
@@ -306,14 +359,14 @@ public:
     std::shared_ptr<ComponentRegistry> registry,
     BundleContext bundleContext,
     std::shared_ptr<cppmicroservices::logservice::LogService> logger,
-    std::shared_ptr<boost::asio::thread_pool> pool,
+    std::shared_ptr<cppmicroservices::async::AsyncWorkService> asyncWorkService,
     std::shared_ptr<ConfigurationNotifier> notifier,
     std::shared_ptr<std::vector<std::shared_ptr<ComponentManager>>> managers)
     : ComponentManagerImpl(metadata,
                            registry,
                            bundleContext,
                            logger,
-                           pool,
+                           asyncWorkService,
                            notifier,
                            managers)
     , statechangecount(0)
@@ -393,6 +446,18 @@ public:
   std::atomic<int> statechangecount;
 };
 
+}
+
+namespace async {
+class MockAsyncWorkService : public cppmicroservices::async::AsyncWorkService
+{
+public:
+  MockAsyncWorkService()
+    : cppmicroservices::async::AsyncWorkService()
+  {}
+
+  MOCK_METHOD1(post, void(std::packaged_task<void()>&&));
+};
 }
 }
 

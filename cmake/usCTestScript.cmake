@@ -1,6 +1,5 @@
 
 macro(build_and_test)
-
   set(CTEST_SOURCE_DIRECTORY ${US_SOURCE_DIR})
   set(CTEST_BINARY_DIRECTORY "${CTEST_DASHBOARD_ROOT}/${CTEST_PROJECT_NAME}_${CTEST_DASHBOARD_NAME}")
 
@@ -16,6 +15,18 @@ macro(build_and_test)
     file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${CTEST_INITIAL_CACHE}")
   endif()
 
+  if (WITH_ASAN)
+    set(US_ENABLE_ASAN ON)
+  endif()
+
+  if (WITH_TSAN)
+    set(US_ENABLE_TSAN ON)
+  endif()
+
+  if (WITH_UBSAN)
+    set(US_ENABLE_UBSAN ON)
+  endif()
+
   ctest_configure(RETURN_VALUE res)
   if (res)
     message(FATAL_ERROR "CMake configure error")
@@ -26,6 +37,8 @@ macro(build_and_test)
     # lines that are too verbose that some travis-ci builds exceed the 4MB
     # log file size limit and terminate prematurely.
     #
+    # Note: we no longer use travis-ci
+    #
     # Since "ctest_build" currently does not support piping outputs of the
     # native tool builds, a shell script file is used to manually call "xcodebuild"
     # (with the same options that ctest_build would have generated), piping the
@@ -34,7 +47,7 @@ macro(build_and_test)
     # Instead of calling xcodebuild directly in "execute_process", a separate
     # shell script file was created, so RESULT_VARIABLE can properly be captured
     # by looking at PIPESTATUS[0].
-    execute_process( COMMAND bash ${CTEST_SOURCE_DIRECTORY}/cmake/travis_xcodebuild_pretty.sh ${CTEST_BINARY_DIRECTORY} ${CTEST_BUILD_CONFIGURATION}
+    execute_process( COMMAND bash ${CTEST_SOURCE_DIRECTORY}/cmake/xcodebuild_pretty.sh ${CTEST_BINARY_DIRECTORY} ${CTEST_BUILD_CONFIGURATION}
                      RESULT_VARIABLE res )
   else()
     ctest_build(RETURN_VALUE res)

@@ -3,6 +3,7 @@ set(_srcs
   ConfigurationListenerImpl.cpp
   ComponentContextImpl.cpp
   ComponentRegistry.cpp
+  SCRAsyncWorkService.cpp
   SCRBundleExtension.cpp
   SCRLogger.cpp
   ServiceComponentRuntimeImpl.cpp
@@ -39,6 +40,7 @@ set(_private_headers
   ComponentContextImpl.hpp
   ComponentRegistry.hpp
   SCRActivator.hpp
+  SCRAsyncWorkService.hpp
   SCRBundleExtension.hpp
   SCRLogger.hpp
   ServiceComponentRuntimeImpl.hpp
@@ -89,9 +91,11 @@ include_directories(${CppMicroServices_SOURCE_DIR}/framework/include
   ${CppMicroServices_BINARY_DIR}/framework/include
   ${CppMicroServices_BINARY_DIR}/compendium/ServiceComponent/include
   ${CppMicroServices_BINARY_DIR}/compendium/LogService/include
+  ${CppMicroServices_BINARY_DIR}/compendium/AsyncWorkService/include
   ${CppMicroServices_BINARY_DIR}/compendium/CM/include
   ${CppMicroServices_SOURCE_DIR}/compendium/ServiceComponent/include
   ${CppMicroServices_SOURCE_DIR}/compendium/LogService/include
+  ${CppMicroServices_SOURCE_DIR}/compendium/AsyncWorkService/include
   ${CppMicroServices_SOURCE_DIR}/compendium/CM/include
   ${CppMicroServices_SOURCE_DIR}/third_party/googletest/googletest/include
   ${CppMicroServices_SOURCE_DIR}/third_party/googletest/googlemock/include
@@ -100,7 +104,3 @@ include_directories(${CppMicroServices_SOURCE_DIR}/framework/include
 # There are warnings in the boost asio headers which are flagged as errors. Include the boost
 # asio headers as system headers to ignore these warnings and not treat them as errors.
 include_directories(SYSTEM ${CppMicroServices_SOURCE_DIR}/third_party/boost/include)
-
-
-
-
